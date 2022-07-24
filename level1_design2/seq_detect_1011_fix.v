@@ -1,8 +1,8 @@
 // See LICENSE.vyoma for more details
 // Verilog module for Sequence detection: 1011
-module seq_detect_1011(seq_seen, inp_bit, reset, clk);
+module seq_detect_1011_fix(seq_seen, inp_bit, reset, clk);
 
-  output seq_seen;
+  output reg seq_seen;
   input inp_bit;
   input reset;
   input clk;
@@ -17,7 +17,6 @@ module seq_detect_1011(seq_seen, inp_bit, reset, clk);
 
   // if the current state of the FSM has the sequence 1011, then the output is
   // high
-  assign seq_seen = current_state == SEQ_1011 ? 1 : 0;
 
   // state transition
   always @(posedge clk)
@@ -38,6 +37,7 @@ module seq_detect_1011(seq_seen, inp_bit, reset, clk);
     case(current_state)
       IDLE:
       begin
+      seq_seen = 0;
         if(inp_bit == 1)
           next_state = SEQ_1;
         else
@@ -45,6 +45,7 @@ module seq_detect_1011(seq_seen, inp_bit, reset, clk);
       end
       SEQ_1:
       begin
+      seq_seen = 0;
         if(inp_bit == 1)
           next_state = IDLE;
         else
@@ -52,6 +53,7 @@ module seq_detect_1011(seq_seen, inp_bit, reset, clk);
       end
       SEQ_10:
       begin
+        seq_seen = 0;
         if(inp_bit == 1)
           next_state = SEQ_101;
         else
@@ -59,6 +61,7 @@ module seq_detect_1011(seq_seen, inp_bit, reset, clk);
       end
       SEQ_101:
       begin
+        seq_seen = 1;
         if(inp_bit == 1)
           next_state = SEQ_1011;
         else
@@ -66,6 +69,7 @@ module seq_detect_1011(seq_seen, inp_bit, reset, clk);
       end
       SEQ_1011:
       begin
+        seq_seen = 0;
         next_state = IDLE;
       end
     endcase

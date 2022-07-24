@@ -24,3 +24,21 @@ async def test_seq_bug1(dut):
     await FallingEdge(dut.clk)
 
     cocotb.log.info('#### CTB: Develop your test here! ######')
+
+    dut.inp_bit.value = 1
+    await RisingEdge(dut.clk)
+    dut._log.info(f'OUT={dut.seq_seen.value} IN=1')
+    dut.inp_bit.value = 0
+    await RisingEdge(dut.clk)
+    dut._log.info(f'OUT={dut.seq_seen.value} IN=10')
+    dut.inp_bit.value = 1
+    await RisingEdge(dut.clk)
+    dut._log.info(f'OUT={dut.seq_seen.value} IN=101')
+    dut.inp_bit.value = 1
+    await RisingEdge(dut.clk)
+    dut._log.info(f'OUT={dut.seq_seen.value} IN=1011')
+    
+    
+    assert dut.seq_seen.value == 1, "Passed"
+
+
