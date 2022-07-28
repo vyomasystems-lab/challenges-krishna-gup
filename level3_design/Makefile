@@ -4,10 +4,10 @@ TOPLEVEL_LANG ?= verilog
 
 PWD=$(shell pwd)
 
-VERILOG_SOURCES = $(PWD)/               # provide your design path
+VERILOG_SOURCES = $(PWD)/fsm_buggy.v               # provide your design path
 
-TOPLEVEL :=           # design file
-MODULE   :=     # test file
+TOPLEVEL := fsm_buggy         # design file
+MODULE   := test_fsm    # test file
 
 include $(shell cocotb-config --makefiles)/Makefile.sim
 
